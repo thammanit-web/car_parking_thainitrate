@@ -27,6 +27,7 @@ export default function Parking() {
   const [bookingData, setBookingData] = useState({
     bookingId: '',
     parkingDate: '',
+    chickInTIme:'',
     deliveryDate: '',
     vehicleRegNo: '',
     driverPhone: '',
@@ -73,7 +74,7 @@ export default function Parking() {
     if (parkingDate) {
       const localDate = new Date(parkingDate);
       localDate.setMinutes(localDate.getMinutes() - localDate.getTimezoneOffset());
-      const formattedParkingDate = localDate.toISOString().slice(0, 16);
+      const formattedParkingDate = localDate.toISOString().slice(0, 10);
 
       setBookingData({
         ...bookingData,

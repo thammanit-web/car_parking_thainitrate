@@ -1,4 +1,4 @@
-'use client'
+'use client';
 import { useEffect, useState } from 'react';
 
 interface Booking {
@@ -29,58 +29,76 @@ const BookingTable = () => {
           setError('Failed to fetch data');
         }
       } catch (err) {
-        setError('An error occurred');
+        setError('An error occurred while fetching bookings');
       } finally {
-        setLoading(false); 
+        setLoading(false);
       }
     };
 
     fetchBookings();
   }, []);
 
-  if (loading) return (
-    <div className="fixed inset-0 bg-white bg-opacity-50 flex justify-center items-center z-50">
-      <div className="animate-spin border-t-4 border-blue-500 border-solid w-16 h-16 rounded-full"></div>
-    </div>
-  );
+  if (loading) {
+    return (
+      <div className="fixed inset-0 bg-gray-100 bg-opacity-75 flex justify-center items-center z-50">
+        <div className="animate-spin rounded-full h-12 w-12 border-t-4 border-blue-600"></div>
+      </div>
+    );
+  }
 
-  if (error) return <div className="text-center py-4 text-red-500">{  }</div>;
+  if (error) {
+    return (
+      <div className="text-center py-6 text-red-600 font-medium">
+        {error}
+      </div>
+    );
+  }
 
   return (
-    <div className="overflow-x-auto py-4">
-      <table className="w-full table-auto bg-white border border-gray-100 rounded-lg shadow-lg">
-        <thead>
-          <tr className="bg-gray-50 text-xs sm:text-sm">
-            <th className="px-2 sm:px-4 py-2 text-left border-b whitespace-nowrap">หมายเลขคิว</th>
-            <th className="px-2 sm:px-4 py-2 text-left border-b whitespace-nowrap">หมายเลขทะเบียนรถขนส่ง</th>
-            <th className="px-2 sm:px-4 py-2 text-left border-b whitespace-nowrap">บริษัทรถขนส่ง</th>
-            <th className="px-2 sm:px-4 py-2 text-left border-b whitespace-nowrap">วันที่จอง</th>
-            <th className="px-2 sm:px-4 py-2 text-left border-b whitespace-nowrap">ช่องที่จอง</th>
-          </tr>
-        </thead>
-        <tbody>
-          {bookings.map((booking) => (
-            <tr key={booking.bookingId} className="hover:bg-gray-100 text-center text-xs sm:text-sm">
-              <td className="px-2 sm:px-4 py-2 border-b">{booking.queueOrder}</td>
-              <td className="px-2 sm:px-4 py-2 border-b">{booking.vehicleRegNo}</td>
-              <td className="px-2 sm:px-4 py-2 border-b">{booking.transportCompany}</td>
-              <td className="px-2 sm:px-4 py-2 border-b">
-                {booking.parkingDate
-                  ? new Date(booking.parkingDate.toString()).toLocaleString('en-GB', {
-                    day: '2-digit',
-                    month: '2-digit',
-                    year: '2-digit',
-                    hour: '2-digit',
-                    minute: '2-digit',
-                    hour12: false,
-                  })
-                  : 'N/A'}
-              </td>
-              <td className="px-2 sm:px-4 py-2 border-b">{booking.parkingSlot}</td>
+    <div className="container mx-auto px-4 py-6">
+      <div className="overflow-x-auto bg-white rounded-xl shadow-md border border-gray-200">
+        <table className="min-w-full table-auto divide-y divide-gray-200">
+          <thead className="bg-gray-50">
+            <tr className="text-xs uppercase tracking-wider text-gray-700 text-center">
+              <th className="px-2 py-2 sm:px-4 font-semibold">คิว</th>
+              <th className="px-2 py-2 sm:px-4 font-semibold">หมายเลขทะเบียนรถ</th>
+              <th className="px-2 py-2 sm:px-4 font-semibold">บริษัท</th>
+              <th className="px-2 py-2 sm:px-4 font-semibold">วันที่จอง</th>
+              <th className="px-2 py-2 sm:px-4 font-semibold">ช่องจอด</th>
             </tr>
-          ))}
-        </tbody>
-      </table>
+          </thead>
+          <tbody className="divide-y divide-gray-100">
+            {bookings.length === 0 ? (
+              <tr>
+                <td colSpan={5} className="px-4 py-2 text-center text-gray-500">
+                  No bookings found
+                </td>
+              </tr>
+            ) : (
+              bookings.map((booking) => (
+                <tr
+                  key={booking.bookingId}
+                  className="hover:bg-gray-50 transition-colors text-sm text-gray-800"
+                >
+                  <td className="px-2 py-2 sm:px-4">{booking.queueOrder}</td>
+                  <td className="px-2 py-2 sm:px-4">{booking.vehicleRegNo}</td>
+                  <td className="px-2 py-2 sm:px-4">{booking.transportCompany}</td>
+                  <td className="px-2 py-2 sm:px-4">
+                    {booking.parkingDate
+                      ? new Date(booking.parkingDate).toLocaleString('en-GB', {
+                          day: '2-digit',
+                          month: '2-digit',
+                          year: 'numeric',
+                        })
+                      : 'N/A'}
+                  </td>
+                  <td className="px-2 py-2 sm:px-4">{booking.parkingSlot}</td>
+                </tr>
+              ))
+            )}
+          </tbody>
+        </table>
+      </div>
     </div>
   );
 };

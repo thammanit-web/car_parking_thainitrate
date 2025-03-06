@@ -2,6 +2,7 @@ interface BookingFormProps {
   bookingData: {
     bookingId: string;
     parkingDate: string;
+    chickInTIme: string;
     deliveryDate: string;
     vehicleRegNo: string;
     driverPhone: string;
@@ -15,7 +16,7 @@ interface BookingFormProps {
 function BookingForm({ bookingData, onSubmit, onChange }: BookingFormProps) {
   const isWeekend = (dateString: string) => {
     const date = new Date(dateString);
-    const day = date.getDay(); 
+    const day = date.getDay();
     return day === 0 || day === 6;
   };
 
@@ -34,15 +35,27 @@ function BookingForm({ bookingData, onSubmit, onChange }: BookingFormProps) {
       <h2 className="text-2xl font-semibold text-center">Parking Slot Booking</h2>
 
       <div className="flex flex-col">
-        <label htmlFor="parkingDate" className="text-sm font-medium">Parking Date</label>
+        <label htmlFor="parkingSlot" className="text-sm font-medium">ช่องจอด</label>
         <input
-          id="parkingDate"
-          type="datetime-local"
-          value={bookingData.parkingDate}
-          onChange={(e) => onChange({ ...bookingData, parkingDate: e.target.value })}
+          id="parkingSlot"
+          type="number"
+          value={bookingData.parkingSlot}
+          onChange={(e) => onChange({ ...bookingData, parkingSlot: e.target.value })}
           className="mt-1 px-3 py-2 border border-gray-300 rounded-md"
         />
       </div>
+
+      <div className="flex flex-col">
+        <label htmlFor="chickInTIme" className="text-sm font-medium">เวลาเข้าจอด</label>
+        <input
+          id="chickInTIme"
+          type="time"
+          value={bookingData.chickInTIme}
+          onChange={(e) => onChange({ ...bookingData, chickInTIme: e.target.value })}
+          className="mt-1 px-3 py-2 border border-gray-300 rounded-md"
+        />
+      </div>
+
 
       <div className="flex flex-col">
         <label htmlFor="deliveryDate" className="text-sm font-medium">Delivery Date</label>

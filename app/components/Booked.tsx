@@ -22,6 +22,7 @@ interface BookingData {
   bookingId: string;
   queueOrder: string;
   parkingDate: string;
+  chickInTIme: string;
   deliveryDate: string;
   vehicleRegNo: string;
   driverPhone: string;
@@ -39,6 +40,7 @@ export default function Parking() {
   const [bookingData, setBookingData] = useState({
     bookingId: '',
     parkingDate: '',
+    chickInTIme: '',
     deliveryDate: '',
     vehicleRegNo: '',
     driverPhone: '',
@@ -58,22 +60,18 @@ export default function Parking() {
     const fetchData = async () => {
       setLoading(true);
       try {
-        // Fetch parking data
         const parkingResponse = await fetch('/api/parking');
         const parkingData = await parkingResponse.json();
         if (!parkingResponse.ok) throw new Error('Failed to fetch parking data');
 
-        // Fetch booking data
         const bookingResponse = await fetch('/api/bookings');
         const bookingData = await bookingResponse.json();
         if (!bookingResponse.ok) throw new Error('Failed to fetch booking data');
 
-        // Filter parking data by selected date
         const filteredParkings = parkingData.filter((parking: ParkingData) =>
           new Date(parking.date).toLocaleDateString('en-GB') === new Date(selectedDate).toLocaleDateString('en-GB')
         );
 
-        // Filter bookings by selected date
         const filteredBookings = bookingData.filter((booking: BookingData) =>
           new Date(booking.parkingDate).toLocaleDateString('en-GB') === new Date(selectedDate).toLocaleDateString('en-GB')
         );
@@ -92,22 +90,22 @@ export default function Parking() {
   const getSlotStatus = (slotNumber: number) => {
     const booking = bookings.find((b) => parseInt(b.parkingSlot) === slotNumber);
     if (booking) {
-      return booking.vehicleRegNo; // Show vehicleRegNo if slot is booked
+      return booking.vehicleRegNo;
     }
     const parking = parkings[0];
-    return parking ? parking[`parkingSlot${slotNumber}` as keyof ParkingData] : 'ว่าง'; // Default to "available" if no booking
+    return parking ? parking[`parkingSlot${slotNumber}` as keyof ParkingData] : 'ว่าง';
   };
 
   const handleClick = (slot: number) => {
     const slotStatus = getSlotStatus(slot);
-    if (slotStatus !== 'ว่าง') return; // Prevent clicking on booked slots
+    if (slotStatus !== 'ว่าง') return;
 
     setSelectedSlot(slot);
     const parkingDate = parkings[0]?.date || '';
     if (parkingDate) {
       const localDate = new Date(parkingDate);
       localDate.setMinutes(localDate.getMinutes() - localDate.getTimezoneOffset());
-      const formattedParkingDate = localDate.toISOString().slice(0, 16);
+      const formattedParkingDate = localDate.toISOString().slice(0, 10);
 
       setBookingData({
         ...bookingData,
@@ -162,7 +160,7 @@ export default function Parking() {
           {/* Left Parking */}
           <div className="flex flex-col gap-2">
             {[...Array(7)].map((_, i) => {
-              const slotNumber = i + 1;
+              const slotNumber = 10 - i;
               const slotStatus = getSlotStatus(slotNumber);
               const isBooked = slotStatus !== 'ว่าง';
 
@@ -171,9 +169,8 @@ export default function Parking() {
                   key={i}
                   onClick={() => !isBooked && handleClick(slotNumber)}
                   disabled={isBooked}
-                  className={`cursor-pointer border border-gray-300 px-2 py-1 md:px-4 md:py-2 ${
-                    isBooked ? 'bg-gray-100 cursor-not-allowed' : 'hover:bg-gray-300'
-                  } transition w-20 md:w-24 text-sm md:text-base text-center rounded-md shadow-md`}
+                  className={`cursor-pointer border border-gray-300 px-2 py-1 md:px-4 md:py-2 ${isBooked ? 'bg-gray-100 cursor-not-allowed' : 'hover:bg-gray-300'
+                    } transition w-20 md:w-24 text-sm md:text-base text-center rounded-md shadow-md`}
                 >
                   {slotStatus}
                 </button>
@@ -183,17 +180,16 @@ export default function Parking() {
 
           {/* Factory */}
           <div className="bg-blue-300 w-40 h-64 md:w-72 md:h-72 lg:w-72 lg:h-72 relative grid place-items-center rounded-md shadow-md">
-            <p className="text-center text-2xl">โรงงาน</p>
-            <div className="absolute bottom-0 right-0 border w-1/3 h-1/4 bg-white rounded-md shadow-md">
-              <p className="absolute bottom-0 left-1/2 -translate-x-1/2 m-0 text-lg">ประตู</p>
-            </div>
+            <img src="/img/factory.jpg" className="absolute top-0 left-0 w-full h-full object-cover rounded-md" />
           </div>
+
+
         </div>
 
         {/* Front Parking */}
         <div className="flex flex-row gap-2 mt-4 justify-center w-full">
           {[...Array(3)].map((_, i) => {
-            const slotNumber = i + 8;
+            const slotNumber = 3 - i;
             const slotStatus = getSlotStatus(slotNumber);
             const isBooked = slotStatus !== 'ว่าง';
 
@@ -202,9 +198,8 @@ export default function Parking() {
                 key={i}
                 onClick={() => !isBooked && handleClick(slotNumber)}
                 disabled={isBooked}
-                className={`cursor-pointer border border-gray-300 px-2 py-1 md:px-4 md:py-2 ${
-                  isBooked ? 'bg-gray-100 cursor-not-allowed' : 'hover:bg-gray-300'
-                } transition w-20 md:w-24 text-sm md:text-base text-center rounded-md shadow-md`}
+                className={`cursor-pointer border border-gray-300 px-2 py-1 md:px-4 md:py-2 ${isBooked ? 'bg-gray-100 cursor-not-allowed' : 'hover:bg-gray-300'
+                  } transition w-20 md:w-24 text-sm md:text-base text-center rounded-md shadow-md`}
               >
                 {slotStatus}
               </button>
