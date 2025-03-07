@@ -17,14 +17,15 @@ export default function Home() {
       <div className="grid place-content-center mt-10">
         <div className="header flex flex-col w-full justify-center items-center">
           <img src="https://www.thainitrate.com/images/tnc-logo.png" alt="TNC Logo" className="h-20 mb-4" />
-          <p className="text-center mb-2">จองที่จอดรถรอรับสินค้า(ค้างคืน)</p>
+          <p className="text-center mb-2 text-2xl">จองที่จอดรถรอรับสินค้า(ค้างคืน)</p>
           <hr className="border-gray-400 mb-4 w-full" />
-          <p className="text-center mb-2">ของบริษัท ไนเตรทไทย จำกัด</p>
+          <p className="text-center mb-4">ของบริษัท ไนเตรทไทย จำกัด</p>
           <p className="font-semibold text-center mb-4 mx-10">**จากข้อร้องเรียนปัญหารถที่มาจอดรอรับสินค้าของ บ. ไนเตรทไทย ส่งผลกระทบกับความไม่ปลอดภัยของผู้อื่น จึงจำเป็นต้องประกาศข้อห้ามดังนี้</p>
           <div className="text-left mb-4 space-y-2">
             <p>1.ห้ามจอดรถทุกชนิด เกินขอบรั้วโรงงาน ไนเตรทไทย</p>
             <p>2.ห้ามไปกลับรถ บนพื้นที่ของผู้อื่น</p>
           </div>
+          <p className="text-center">-- ต้องขออภัยในความไม่สะดวกและขอบคุณในความร่วมมือ --</p>
           <hr className="border-gray-400 mt-4 mb-4 w-full" />
         </div>
 

@@ -1,8 +1,9 @@
 import "./globals.css";
-export const metadata={
+
+export const metadata = {
   title: 'จองคิวจอดรถ',
-  icons:{
-    icon:['/favicon.ico']
+  icons: {
+    icon: ['/favicon.ico']
   }
 }
 
@@ -13,7 +14,13 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body>        
+      <head>
+        <link 
+          href="https://fonts.googleapis.com/css2?family=Sarabun:wght@400;600&display=swap" 
+          rel="stylesheet" 
+        />
+      </head>
+      <body>
         {children}
       </body>
     </html>
