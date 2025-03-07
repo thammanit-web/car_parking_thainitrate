@@ -71,18 +71,18 @@ const BookingTable = () => {
   }
 
   return (
-    <div className="container mx-auto px-4 py-6">
+    <div className="py-4 px-4 flex flex-col items-center">
       <div className="mb-4">
         <input
           type="date"
           value={selectedDate}
           onChange={(e) => setSelectedDate(e.target.value)}
-          className="border rounded p-2"
+          className="border border-gray-300 rounded-lg p-3 w-full max-w-xs focus:outline-none focus:ring-2 focus:ring-blue-500 transition duration-200"
         />
       </div>
 
       <div className="overflow-x-auto bg-white rounded-xl shadow-md border border-gray-200">
-        <table className="w-full table-auto divide-y divide-gray-200">
+        <table className="w-full table-auto divide-y divide-gray-200 mx-8">
           <thead className="bg-gray-50">
             <tr className="text-xs uppercase tracking-wider text-gray-700 text-center">
               <th className="px-2 py-2 sm:px-4 font-semibold">คิว</th>

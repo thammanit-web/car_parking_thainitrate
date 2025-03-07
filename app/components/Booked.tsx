@@ -238,7 +238,7 @@ export default function Parking() {
                       <button
                         onClick={() => !isBooked && handleClick(slotNumber)}
                         disabled={isBooked}
-                        className={`h-36 w-16 md:w-16 text-sm md:text-base text-center rounded-md transition 
+                        className={`h-36 w-16 md:w-16 text-sm md:text-base text-center rounded-md transition border-gray-500
               mx-2 mb-2 border flex flex-col items-center justify-center
               ${isBooked ? 'bg-gray-100 border-gray-300 cursor-not-allowed' : 'bg-white  hover:bg-gray-50 cursor-pointer'} 
               focus:outline-none focus:ring-2 focus:ring-blue-400`}
@@ -268,7 +268,7 @@ export default function Parking() {
                       <button
                         onClick={() => !isBooked && handleClick(slotNumber)}
                         disabled={isBooked}
-                        className={`h-36 md:h-36 w-16 md:w-16 text-sm md:text-base text-center rounded-md transition 
+                        className={`h-36 md:h-36 w-16 md:w-16 text-sm md:text-base text-center rounded-md transition border-gray-500
               mx-2 border mt-2 flex flex-col items-center justify-center
               ${isBooked ? 'bg-gray-100 border-gray-300 cursor-not-allowed' : 'bg-white  hover:bg-gray-50 cursor-pointer'} 
               focus:outline-none focus:ring-2 focus:ring-blue-400`}
