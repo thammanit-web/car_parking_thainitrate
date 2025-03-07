@@ -16,6 +16,8 @@ const BookingTable = () => {
   const [bookings, setBookings] = useState<Booking[]>([]);
   const [loading, setLoading] = useState<boolean>(true);
   const [error, setError] = useState<string | null>(null);
+  const [selectedDate, setSelectedDate] = useState<string>('');
+  const [filteredBookings, setFilteredBookings] = useState<Booking[]>([]);
 
   useEffect(() => {
     const fetchBookings = async () => {
@@ -25,6 +27,7 @@ const BookingTable = () => {
         const data = await response.json();
         if (response.ok) {
           setBookings(data);
+          setFilteredBookings(data);
         } else {
           setError('Failed to fetch data');
         }
@@ -37,6 +40,19 @@ const BookingTable = () => {
 
     fetchBookings();
   }, []);
+
+  useEffect(() => {
+    if (selectedDate) {
+      const filtered = bookings.filter((booking) => {
+        const bookingDate = new Date(booking.parkingDate).toLocaleDateString();
+        const selected = new Date(selectedDate).toLocaleDateString();
+        return bookingDate === selected;
+      });
+      setFilteredBookings(filtered);
+    } else {
+      setFilteredBookings(bookings);
+    }
+  }, [selectedDate, bookings]);
 
   if (loading) {
     return (
@@ -56,8 +72,17 @@ const BookingTable = () => {
 
   return (
     <div className="container mx-auto px-4 py-6">
+      <div className="mb-4">
+        <input
+          type="date"
+          value={selectedDate}
+          onChange={(e) => setSelectedDate(e.target.value)}
+          className="border rounded p-2"
+        />
+      </div>
+
       <div className="overflow-x-auto bg-white rounded-xl shadow-md border border-gray-200">
-        <table className="min-w-full table-auto divide-y divide-gray-200">
+        <table className="w-full table-auto divide-y divide-gray-200">
           <thead className="bg-gray-50">
             <tr className="text-xs uppercase tracking-wider text-gray-700 text-center">
               <th className="px-2 py-2 sm:px-4 font-semibold">คิว</th>
@@ -68,17 +93,17 @@ const BookingTable = () => {
             </tr>
           </thead>
           <tbody className="divide-y divide-gray-100">
-            {bookings.length === 0 ? (
+            {filteredBookings.length === 0 ? (
               <tr>
                 <td colSpan={5} className="px-4 py-2 text-center text-gray-500">
                   No bookings found
                 </td>
               </tr>
             ) : (
-              bookings.map((booking) => (
+              filteredBookings.map((booking) => (
                 <tr
                   key={booking.bookingId}
-                  className="hover:bg-gray-50 transition-colors text-sm text-gray-800"
+                  className="hover:bg-gray-50 transition-colors text-sm text-gray-800 text-center "
                 >
                   <td className="px-2 py-2 sm:px-4">{booking.queueOrder}</td>
                   <td className="px-2 py-2 sm:px-4">{booking.vehicleRegNo}</td>
@@ -86,10 +111,10 @@ const BookingTable = () => {
                   <td className="px-2 py-2 sm:px-4">
                     {booking.parkingDate
                       ? new Date(booking.parkingDate).toLocaleString('en-GB', {
-                          day: '2-digit',
-                          month: '2-digit',
-                          year: 'numeric',
-                        })
+                        day: '2-digit',
+                        month: '2-digit',
+                        year: 'numeric',
+                      })
                       : 'N/A'}
                   </td>
                   <td className="px-2 py-2 sm:px-4">{booking.parkingSlot}</td>

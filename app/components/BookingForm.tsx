@@ -1,3 +1,5 @@
+import React from "react";
+
 interface BookingFormProps {
   bookingData: {
     bookingId: string;
@@ -7,7 +9,7 @@ interface BookingFormProps {
     vehicleRegNo: string;
     driverPhone: string;
     transportCompany: string;
-    parkingSlot: string;
+    parkingSlot: number;
   };
   onSubmit: (e: React.FormEvent) => void;
   onChange: (data: any) => void;
@@ -30,20 +32,19 @@ function BookingForm({ bookingData, onSubmit, onChange }: BookingFormProps) {
     }
   };
 
-  return (
-    <form onSubmit={onSubmit} className="max-w-lg mx-auto p-4 space-y-4 bg-white rounded-lg shadow-md">
-      <h2 className="text-2xl font-semibold text-center">Parking Slot Booking</h2>
+  const handleTransportCompanyChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const selectedCompany = e.target.value;
+    onChange({ ...bookingData, transportCompany: selectedCompany });
+  };
 
-      <div className="flex flex-col">
-        <label htmlFor="parkingSlot" className="text-sm font-medium">ช่องจอด</label>
-        <input
-          id="parkingSlot"
-          type="number"
-          value={bookingData.parkingSlot}
-          onChange={(e) => onChange({ ...bookingData, parkingSlot: e.target.value })}
-          className="mt-1 px-3 py-2 border border-gray-300 rounded-md"
-        />
-      </div>
+  const handleTransportCompanySelect = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const selectedCompany = e.target.value;
+    onChange({ ...bookingData, transportCompany: selectedCompany });
+  };
+
+  return (
+    <form onSubmit={onSubmit} className="max-w-lg mx-auto p-4 space-y-4 rounded-lg">
+      <h2 className="text-2xl font-semibold text-center">แบบฟอร์มจองที่จอดรถ</h2>
 
       <div className="flex flex-col">
         <label htmlFor="chickInTIme" className="text-sm font-medium">เวลาเข้าจอด</label>
@@ -56,20 +57,20 @@ function BookingForm({ bookingData, onSubmit, onChange }: BookingFormProps) {
         />
       </div>
 
-
       <div className="flex flex-col">
-        <label htmlFor="deliveryDate" className="text-sm font-medium">Delivery Date</label>
+        <label htmlFor="deliveryDate" className="text-sm font-medium">วันที่รับของ</label>
         <input
           id="deliveryDate"
           type="date"
           value={bookingData.deliveryDate}
           onChange={handleDeliveryDateChange}
-          className="mt-1 px-3 py-2 border border-gray-300 rounded-md"
+          disabled
+          className="mt-1 px-3 py-2 border border-gray-300 rounded-md bg-gray-50"
         />
       </div>
 
       <div className="flex flex-col">
-        <label htmlFor="vehicleRegNo" className="text-sm font-medium">Vehicle Registration Number</label>
+        <label htmlFor="vehicleRegNo" className="text-sm font-medium">หมายเลขทะเบียนรถ</label>
         <input
           id="vehicleRegNo"
           type="text"
@@ -80,7 +81,7 @@ function BookingForm({ bookingData, onSubmit, onChange }: BookingFormProps) {
       </div>
 
       <div className="flex flex-col">
-        <label htmlFor="driverPhone" className="text-sm font-medium">Driver Phone</label>
+        <label htmlFor="driverPhone" className="text-sm font-medium">หมายเลขโทรศัพท์คนขับ</label>
         <input
           id="driverPhone"
           type="text"
@@ -91,18 +92,49 @@ function BookingForm({ bookingData, onSubmit, onChange }: BookingFormProps) {
       </div>
 
       <div className="flex flex-col">
-        <label htmlFor="transportCompany" className="text-sm font-medium">Transport Company</label>
-        <input
-          id="transportCompany"
-          type="text"
-          value={bookingData.transportCompany}
-          onChange={(e) => onChange({ ...bookingData, transportCompany: e.target.value })}
-          className="mt-1 px-3 py-2 border border-gray-300 rounded-md"
-        />
+        <label htmlFor="transportCompany" className="text-sm font-medium">เลือกบริษัทขนส่ง</label>
+        <div className="flex items-center space-x-4">
+          <label>
+            <input
+              type="radio"
+              name="transportCompany"
+              value="TMT"
+              checked={bookingData.transportCompany === "TMT"}
+              onChange={handleTransportCompanySelect}
+              className="mr-2"
+            />
+            TMT
+          </label>
+          <label>
+            <input
+              type="radio"
+              name="transportCompany"
+              value="Other"
+              checked={bookingData.transportCompany !== "TMT"}
+              onChange={handleTransportCompanySelect}
+              className="mr-2"
+            />
+            อื่นๆ
+          </label>
+        </div>
       </div>
 
+      {bookingData.transportCompany !== "TMT" && (
+        <div className="flex flex-col">
+          <label htmlFor="otherTransportCompany" className="text-sm font-medium">กรอกชื่อบริษัท</label>
+          <input
+            id="otherTransportCompany"
+            type="text"
+            value={bookingData.transportCompany}
+            onChange={handleTransportCompanyChange}
+            className="mt-1 px-3 py-2 border border-gray-300 rounded-md"
+            placeholder="กรอกชื่อบริษัท"
+          />
+        </div>
+      )}
+
       <button type="submit" className="w-full bg-blue-600 text-white py-2 rounded-md hover:bg-blue-700 cursor-pointer">
-        Book Slot
+        บันทึกข้อมูล
       </button>
     </form>
   );
