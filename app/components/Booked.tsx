@@ -171,7 +171,7 @@ export default function Parking() {
         body: JSON.stringify(dataToSend),
       });
       const data = await response.json();
-      await fetchData(); 
+      await fetchData();
       if (data.error) {
         alert(`Error: ${data.error}`);
       } else {
@@ -186,7 +186,7 @@ export default function Parking() {
           transportCompany: '',
           parkingSlot: '',
         });
-      
+
       }
     } catch (err) {
       alert('An error occurred while submitting');
@@ -198,10 +198,36 @@ export default function Parking() {
   };
 
   return (
-    <div className="py-4 px-4 flex flex-col items-center">
+    <div className="py-4 flex flex-col items-center">
       <div className='text-center w-full items-center justify-center grid'>
-        <label className="text-sm md:text-base font-medium text-gray-700 underline">รายละเอียดช่องจอด</label>
-        <img src="img/slot.png" className="h-52" />
+        <label className="text-sm md:text-base font-medium text-gray-700 underline mb-2">รายละเอียดช่องจอด</label>
+        <div className="flex flex-col gap-1">
+          <div className="flex flex-row gap-1">
+            <div className="flex flex-col flex-1 text-center">
+              {[10, 9, 8, 7, 6, 5, 4].map((number) => (
+                <div key={number} className="border h-9 w-10 flex items-center justify-center text-sm">
+                  {number}
+                </div>
+              ))}
+            </div>
+            <div className="flex bg-gray-300">
+              <img
+                src="img/factory.jpg"
+                alt="Image"
+                className="object-cover h-64"
+                loading="lazy"
+              />
+            </div>
+          </div>
+          <div className="flex flex-row flex-1 text-center">
+            <div className="h-8 w-10"></div>
+            {[3, 2, 1].map((number) => (
+              <div key={number} className="border h-8 w-10 flex items-center justify-center text-sm">
+                {number}
+              </div>
+            ))}
+          </div>
+        </div>
       </div>
       <hr className="border-gray-400 mt-4 w-full" />
       <div className="flex flex-col md:flex-row items-center mt-4 gap-2">
@@ -212,7 +238,7 @@ export default function Parking() {
             value={selectedDate}
             onChange={handleDateChange}
             min={new Date(new Date().setDate(new Date().getDate())).toISOString().split("T")[0]}
-            max={new Date(new Date().setDate(new Date().getDate() + 3)).toISOString().split("T")[0]}  
+            max={new Date(new Date().setDate(new Date().getDate() + 14)).toISOString().split("T")[0]}
             className="border border-teal-400 rounded-lg px-3 py-2 text-sm md:text-base shadow-sm focus:outline-none focus:ring-2 focus:ring-teal-500 focus:border-teal-500 transition-all duration-200 w-full md:w-64 bg-white"
           />
         </div>
@@ -235,6 +261,13 @@ export default function Parking() {
 
                   return (
                     <div key={slotNumber} className="border-b border-l border-r border-black">
+                        {isBooked ? (
+                          <>
+                           <span className='mb-2 text-xs text-center flex justify-center items-center'>{slotStatus}</span>
+                          </>
+                        ) : (
+                          <span className='mb-2 text-xs text-center flex justify-center items-center'>ช่องจอด {slotNumber}</span>
+                        )}
                       <button
                         onClick={() => !isBooked && handleClick(slotNumber)}
                         disabled={isBooked}
@@ -246,10 +279,9 @@ export default function Parking() {
                         {isBooked ? (
                           <>
                             <img src="/img/truck.png" className="px-2 transform rotate-180" />
-                            <span className='mb-2'>{slotStatus}</span>
                           </>
                         ) : (
-                          `ช่องจอด ${slotNumber}`
+                          <img src="/img/Parking_icon.png" className="px-2" />
                         )}
                       </button>
                     </div>
@@ -274,14 +306,21 @@ export default function Parking() {
               focus:outline-none focus:ring-2 focus:ring-blue-400`}
                       >
                         {isBooked ? (
-                          <><span className='mะ-2'>{slotStatus}</span>
+                          <>
                             <img src="/img/truck.png" className="px-2" />
-
                           </>
                         ) : (
-                          `ช่องจอด ${slotNumber}`
+                          <img src="/img/Parking_icon.png" className="px-2" />
                         )}
                       </button>
+                      {isBooked ? (
+                          <>
+                           <span className='mt-2 text-xs text-center flex justify-center items-center'>{slotStatus}</span>
+                          </>
+                        ) : (
+                          <span className='mt-2 text-xs text-center flex justify-center items-center'>ช่องจอด {slotNumber}</span>
+                        )}
+                     
                     </div>
                   );
                 })}

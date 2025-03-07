@@ -15,6 +15,7 @@ export default function RootLayout({
   return (
     <html lang="en">
       <head>
+
         <link 
           href="https://fonts.googleapis.com/css2?family=Sarabun:wght@400;600&display=swap" 
           rel="stylesheet" 

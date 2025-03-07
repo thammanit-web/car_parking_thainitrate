@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 
 interface BookingFormProps {
   bookingData: {
@@ -16,6 +16,8 @@ interface BookingFormProps {
 }
 
 function BookingForm({ bookingData, onSubmit, onChange }: BookingFormProps) {
+  const [errors, setErrors] = useState<{ [key: string]: string }>({});
+
   const isWeekend = (dateString: string) => {
     const date = new Date(dateString);
     const day = date.getDay();
@@ -42,8 +44,37 @@ function BookingForm({ bookingData, onSubmit, onChange }: BookingFormProps) {
     onChange({ ...bookingData, transportCompany: selectedCompany });
   };
 
+  const handlePhoneChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const value = e.target.value;
+    if (/^\d{0,10}$/.test(value)) {
+      onChange({ ...bookingData, driverPhone: value });
+    }
+  };
+
+  const validateForm = () => {
+    const formErrors: { [key: string]: string } = {};
+
+    if (!bookingData.chickInTIme) formErrors.chickInTIme = "กรุณาใส่เวลาเข้าจอด";
+    if (!bookingData.deliveryDate) formErrors.deliveryDate = "กรุณาเลือกวันที่รับของ";
+    if (!bookingData.vehicleRegNo) formErrors.vehicleRegNo = "กรุณากรอกหมายเลขทะเบียนรถ";
+    if (!bookingData.driverPhone) formErrors.driverPhone = "กรุณากรอกหมายเลขโทรศัพท์";
+    if (!bookingData.transportCompany) formErrors.transportCompany = "กรุณาเลือกบริษัทขนส่ง";
+
+    setErrors(formErrors);
+
+    return Object.keys(formErrors).length === 0;
+  };
+
+  const handleSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    if (validateForm()) {
+      onSubmit(e);
+    } else {
+    }
+  };
+
   return (
-    <form onSubmit={onSubmit} className="max-w-lg mx-auto p-4 space-y-4 rounded-lg">
+    <form onSubmit={handleSubmit} className="max-w-lg mx-auto p-4 space-y-4 rounded-lg">
       <h2 className="text-2xl font-semibold text-center">แบบฟอร์มจองที่จอดรถ</h2>
 
       <div className="flex flex-col">
@@ -53,8 +84,9 @@ function BookingForm({ bookingData, onSubmit, onChange }: BookingFormProps) {
           type="time"
           value={bookingData.chickInTIme}
           onChange={(e) => onChange({ ...bookingData, chickInTIme: e.target.value })}
-          className="mt-1 px-3 py-2 border border-gray-300 rounded-md"
+          className={`mt-1 px-3 py-2 border ${errors.chickInTIme ? "border-red-500" : "border-gray-300"} rounded-md`}
         />
+        {errors.chickInTIme && <p className="text-red-500 text-sm">{errors.chickInTIme}</p>}
       </div>
 
       <div className="flex flex-col">
@@ -65,8 +97,9 @@ function BookingForm({ bookingData, onSubmit, onChange }: BookingFormProps) {
           value={bookingData.deliveryDate}
           onChange={handleDeliveryDateChange}
           disabled
-          className="mt-1 px-3 py-2 border border-gray-300 rounded-md bg-gray-50"
+          className={`mt-1 px-3 py-2 border ${errors.deliveryDate ? "border-red-500" : "border-gray-300"} rounded-md bg-gray-50`}
         />
+        {errors.deliveryDate && <p className="text-red-500 text-sm">{errors.deliveryDate}</p>}
       </div>
 
       <div className="flex flex-col">
@@ -76,8 +109,10 @@ function BookingForm({ bookingData, onSubmit, onChange }: BookingFormProps) {
           type="text"
           value={bookingData.vehicleRegNo}
           onChange={(e) => onChange({ ...bookingData, vehicleRegNo: e.target.value })}
-          className="mt-1 px-3 py-2 border border-gray-300 rounded-md"
+          className={`mt-1 px-3 py-2 border ${errors.vehicleRegNo ? "border-red-500" : "border-gray-300"} rounded-md`}
+          placeholder="ใส่แค่หมายเลขทะเบียน"
         />
+        {errors.vehicleRegNo && <p className="text-red-500 text-sm">{errors.vehicleRegNo}</p>}
       </div>
 
       <div className="flex flex-col">
@@ -86,9 +121,12 @@ function BookingForm({ bookingData, onSubmit, onChange }: BookingFormProps) {
           id="driverPhone"
           type="text"
           value={bookingData.driverPhone}
-          onChange={(e) => onChange({ ...bookingData, driverPhone: e.target.value })}
-          className="mt-1 px-3 py-2 border border-gray-300 rounded-md"
+          onChange={handlePhoneChange}
+          maxLength={10}
+          className={`mt-1 px-3 py-2 border ${errors.driverPhone ? "border-red-500" : "border-gray-300"} rounded-md`}
+          placeholder="กรอกหมายเลขโทรศัพท์ 10 หลัก"
         />
+        {errors.driverPhone && <p className="text-red-500 text-sm">{errors.driverPhone}</p>}
       </div>
 
       <div className="flex flex-col">
@@ -110,13 +148,15 @@ function BookingForm({ bookingData, onSubmit, onChange }: BookingFormProps) {
               type="radio"
               name="transportCompany"
               value="Other"
-              checked={bookingData.transportCompany !== "TMT"}
+              checked={bookingData.transportCompany === "Other"}
               onChange={handleTransportCompanySelect}
               className="mr-2"
             />
             อื่นๆ
           </label>
+
         </div>
+        {errors.transportCompany && <p className="text-red-500 text-sm">{errors.transportCompany}</p>}
       </div>
 
       {bookingData.transportCompany !== "TMT" && (
@@ -133,7 +173,10 @@ function BookingForm({ bookingData, onSubmit, onChange }: BookingFormProps) {
         </div>
       )}
 
-      <button type="submit" className="w-full bg-blue-600 text-white py-2 rounded-md hover:bg-blue-700 cursor-pointer">
+      <button
+        type="submit"
+        className="w-full bg-blue-600 text-white py-2 rounded-md hover:bg-blue-700 cursor-pointer"
+      >
         บันทึกข้อมูล
       </button>
     </form>
