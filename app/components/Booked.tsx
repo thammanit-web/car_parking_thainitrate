@@ -363,7 +363,8 @@ export default function Parking() {
                       >
                         {isBooked ? (
                           <>
-                          <img src="img/car.png" className='rotate-180 px-3 transform' />
+                          <img src="img/trailer_truck2.png" className="h-34 transform scale-x-[-1]" />
+
                           </>
                         ) : (
                           <div><img src="/img/Parking_icon.png" className="h-10" /></div>
@@ -400,7 +401,7 @@ export default function Parking() {
                       >
                         {isBooked ? (
                           <>
-                            <img src="/img/car.png" className="transform px-3" />
+                            <img src="/img/trailer_truck2.png" className="transform h-34" />
                           </>
                         ) : (
                           <img src="/img/Parking_icon.png" className="h-10" />
