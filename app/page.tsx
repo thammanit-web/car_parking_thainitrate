@@ -26,7 +26,7 @@ export default function Home() {
             <p>1.ห้ามจอดรถทุกชนิด เกินขอบรั้วโรงงาน ไนเตรทไทย</p>
             <p>2.ห้ามไปกลับรถ บนพื้นที่ของผู้อื่น</p>
           </div>
-          <p className="text-center">-- ต้องขออภัยในความไม่สะดวกและขอบคุณในความร่วมมือ --</p>
+          <p className="text-center">ต้องขออภัยในความไม่สะดวกและขอบคุณในความร่วมมือ</p>
           <hr className="border-gray-400 mt-4 mb-4 w-full" />
         </div>
 
@@ -42,12 +42,12 @@ export default function Home() {
         <div ref={bookedRef}>
         <Booked />
         </div>
-        <div className="flex -w-full justify-center mx-8">
+        <div className="flex justify-center mx-8 mb-8">
         <a
             href="/parking"
-            className="text-center w-full sm:w-auto border border-transparent px-6 py-2 rounded-lg text-black font-medium underline focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-50 transition-colors duration-200"
+            className="text-center sm:w-auto border px-6 py-2 rounded-lg text-black font-medium underline focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-50 transition-colors duration-200"
           >
-           ดูรายละเอียดการจอง
+           ดูรายละเอียดเพิ่มเติม
           </a>
           </div>
       </div>

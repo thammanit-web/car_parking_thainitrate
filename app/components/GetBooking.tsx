@@ -10,6 +10,7 @@ interface Booking {
   driverPhone: string;
   transportCompany: string;
   parkingSlot: string;
+  chickInTIme: string;
 }
 
 const BookingTable = () => {
@@ -46,7 +47,7 @@ const BookingTable = () => {
       setFilteredBookings(
         bookings.filter(
           (booking) => 
-            new Date(booking.parkingDate).toLocaleDateString('en-GB').split('T')[0] === new Date(selectedDate).toLocaleDateString('en-GB')
+            new Date(booking.parkingDate).toLocaleDateString('en-GB') === new Date(selectedDate).toLocaleDateString('en-GB')
         )
       );
     } else {
@@ -75,7 +76,8 @@ const BookingTable = () => {
 
   return (
     <div className="py-4 flex flex-col items-center">
-      <div className="mb-4 w-full flex justify-center items-center">
+      <div className="mb-4 w-full flex justify-center items-center gap-2 px-4">
+        <label className='w-20 rounded-md underline text-xs'>เลือกวันที่</label>
         <input
           type="date"
           value={selectedDate}
@@ -94,6 +96,7 @@ const BookingTable = () => {
               <th className="px-2 py-2 sm:px-4 font-semibold">วันที่จอง</th>
               <th className="px-2 py-2 sm:px-4 font-semibold">ช่องจอด</th>
               <th className="px-2 py-2 sm:px-4 font-semibold">เบอร์คนขับ</th>
+              <th className="px-2 py-2 sm:px-4 font-semibold">เวลาเข้าจอด</th>
             </tr>
           </thead>
           <tbody className="divide-y divide-gray-100">
@@ -123,6 +126,9 @@ const BookingTable = () => {
                   </td>
                   <td className="px-2 py-2 sm:px-4">{booking.parkingSlot}</td>
                   <td className="px-2 py-2 sm:px-4">{booking.driverPhone}</td>
+                   <td className="px-2 py-2 sm:px-4">
+                     {new Date(booking.chickInTIme).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
+                   </td>
                 </tr>
               ))
             )}

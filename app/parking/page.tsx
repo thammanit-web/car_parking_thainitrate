@@ -18,7 +18,7 @@ export default function Home() {
                 <p className="text-center mb-2 text-2xl sm:text-3xl">เช็ควันจอดรถ</p>
             </div>
             <div className="mt-10">
-                <GetBooking />
+                <GetBooking />   
                 <div className="flex -w-full justify-end mx-8 mt-10">
                     <a
                         href="/"
