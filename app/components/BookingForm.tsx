@@ -15,8 +15,11 @@ interface BookingFormProps {
   onChange: (data: any) => void;
 }
 
+const PASSCODES = ["helloworld", "thammanitrinthangadminsondesktop", "error"];
+
 function BookingForm({ bookingData, onSubmit, onChange }: BookingFormProps) {
   const [errors, setErrors] = useState<{ [key: string]: string }>({});
+  const [passcode, setPasscode] = useState("");
 
   const isWeekend = (dateString: string) => {
     const date = new Date(dateString);
@@ -59,6 +62,7 @@ function BookingForm({ bookingData, onSubmit, onChange }: BookingFormProps) {
     if (!bookingData.vehicleRegNo) formErrors.vehicleRegNo = "กรุณากรอกหมายเลขทะเบียนรถ";
     if (!bookingData.driverPhone) formErrors.driverPhone = "กรุณากรอกหมายเลขโทรศัพท์";
     if (!bookingData.transportCompany) formErrors.transportCompany = "กรุณาเลือกบริษัทขนส่ง";
+    if (!PASSCODES.includes(passcode)) formErrors.passcode = "รหัสผ่านไม่ถูกต้อง";
 
     setErrors(formErrors);
 
@@ -172,6 +176,19 @@ function BookingForm({ bookingData, onSubmit, onChange }: BookingFormProps) {
           />
         </div>
       )}
+
+<div className="flex flex-col">
+        <label htmlFor="passcode" className="text-sm font-medium">รหัสผ่าน</label>
+        <input
+          id="passcode"
+          type="text"
+          value={passcode}
+          onChange={(e) => setPasscode(e.target.value)}
+          className={`mt-1 px-3 py-2 border ${errors.passcode ? "border-red-500" : "border-gray-300"} rounded-md`}
+          placeholder="กรอกรหัสผ่าน"
+        />
+        {errors.passcode && <p className="text-red-500 text-sm">{errors.passcode}</p>}
+      </div>
 
       <button
         type="submit"
