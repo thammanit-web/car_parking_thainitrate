@@ -4,7 +4,6 @@ import { useEffect, useState } from 'react';
 interface Booking {
   bookingId: string;
   queueOrder: string;
-  chickInTIme: string;
   parkingDate: string;
   deliveryDate: string;
   vehicleRegNo: string;
@@ -17,8 +16,8 @@ const BookingTable = () => {
   const [bookings, setBookings] = useState<Booking[]>([]);
   const [loading, setLoading] = useState<boolean>(true);
   const [error, setError] = useState<string | null>(null);
-  const [selectedDate, setSelectedDate] = useState<string>('');
   const [filteredBookings, setFilteredBookings] = useState<Booking[]>([]);
+  const [selectedDate, setSelectedDate] = useState<string>('');
 
   useEffect(() => {
     const fetchBookings = async () => {
@@ -44,16 +43,21 @@ const BookingTable = () => {
 
   useEffect(() => {
     if (selectedDate) {
-      const filtered = bookings.filter((booking) => {
-        const bookingDate = new Date(booking.parkingDate).toLocaleDateString();
-        const selected = new Date(selectedDate).toLocaleDateString();
-        return bookingDate === selected;
-      });
-      setFilteredBookings(filtered);
+      setFilteredBookings(
+        bookings.filter(
+          (booking) => 
+            new Date(booking.parkingDate).toLocaleDateString('en-GB').split('T')[0] === new Date(selectedDate).toLocaleDateString('en-GB')
+        )
+      );
     } else {
       setFilteredBookings(bookings);
     }
   }, [selectedDate, bookings]);
+  
+
+  const handleDateChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setSelectedDate(e.target.value);
+  };
 
   if (loading) {
     return (
@@ -65,24 +69,22 @@ const BookingTable = () => {
 
   if (error) {
     return (
-      <div className="text-center py-6 text-red-600 font-medium">
-        {error}
-      </div>
+      <div className="text-center py-6 text-red-600 font-medium">{error}</div>
     );
   }
 
   return (
     <div className="py-4 flex flex-col items-center">
-      <div className="mb-4 w-full justify-center items-center flex">
+      <div className="mb-4 w-full flex justify-center items-center">
         <input
           type="date"
           value={selectedDate}
-          onChange={(e) => setSelectedDate(e.target.value)}
+          onChange={handleDateChange}
           className="border border-gray-300 rounded-lg p-3 w-full sm:w-auto bg-white focus:outline-none focus:ring-2 focus:ring-blue-500 transition duration-200"
         />
       </div>
 
-      <div className="max-w-full overflow-x-auto  rounded-xl shadow-md border border-gray-200 bg-gray-50">
+      <div className="max-w-full overflow-x-auto rounded-xl shadow-md border border-gray-200 bg-gray-50">
         <table className="w-full table-auto divide-y divide-gray-200 mx-4 sm:mx-8">
           <thead className="bg-gray-50">
             <tr className="text-xs uppercase tracking-wider text-gray-700 text-center">
@@ -92,13 +94,12 @@ const BookingTable = () => {
               <th className="px-2 py-2 sm:px-4 font-semibold">วันที่จอง</th>
               <th className="px-2 py-2 sm:px-4 font-semibold">ช่องจอด</th>
               <th className="px-2 py-2 sm:px-4 font-semibold">เบอร์คนขับ</th>
-              <th className="px-2 py-2 sm:px-4 font-semibold">เวลาเข้าจอด</th>
             </tr>
           </thead>
           <tbody className="divide-y divide-gray-100">
             {filteredBookings.length === 0 ? (
               <tr>
-                <td colSpan={5} className="px-4 py-2 text-center text-gray-500">
+                <td colSpan={6} className="px-4 py-2 text-center text-gray-500">
                   ไม่มีการจอง
                 </td>
               </tr>
@@ -114,18 +115,14 @@ const BookingTable = () => {
                   <td className="px-2 py-2 sm:px-4">
                     {booking.parkingDate
                       ? new Date(booking.parkingDate).toLocaleString('en-GB', {
-                        day: '2-digit',
-                        month: '2-digit',
-                        year: 'numeric',
-                      })
+                          day: '2-digit',
+                          month: '2-digit',
+                          year: 'numeric',
+                        })
                       : 'N/A'}
                   </td>
                   <td className="px-2 py-2 sm:px-4">{booking.parkingSlot}</td>
                   <td className="px-2 py-2 sm:px-4">{booking.driverPhone}</td>
-                  <td className="px-2 py-2 sm:px-4">
-                    {new Date(booking.chickInTIme).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
-                  </td>
-
                 </tr>
               ))
             )}

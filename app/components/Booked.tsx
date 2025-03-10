@@ -261,13 +261,13 @@ export default function Parking() {
 
                   return (
                     <div key={slotNumber} className="border-b border-l border-r border-black">
-                        {isBooked ? (
-                          <>
-                           <span className='mb-2 text-xs text-center flex justify-center items-center'>{slotStatus}</span>
-                          </>
-                        ) : (
-                          <span className='mb-2 text-xs text-center flex justify-center items-center'>ช่องจอด {slotNumber}</span>
-                        )}
+                      {isBooked ? (
+                        <>
+                          <span className='mb-2 text-xs text-center flex justify-center items-center'>{slotStatus}</span>
+                        </>
+                      ) : (
+                        ''
+                      )}
                       <button
                         onClick={() => !isBooked && handleClick(slotNumber)}
                         disabled={isBooked}
@@ -281,7 +281,7 @@ export default function Parking() {
                             <img src="/img/truck.png" className="px-2 transform rotate-180" />
                           </>
                         ) : (
-                          <img src="/img/Parking_icon.png" className="px-2" />
+                          <div> <span className='mb-2 text-xs text-center flex justify-center items-center'>ช่องจอด {slotNumber}</span>  <img src="/img/Parking_icon.png" className="px-2" /></div>
                         )}
                       </button>
                     </div>
@@ -310,17 +310,17 @@ export default function Parking() {
                             <img src="/img/truck.png" className="px-2" />
                           </>
                         ) : (
-                          <img src="/img/Parking_icon.png" className="px-2" />
+                          <div> <span className='mb-2 text-xs text-center flex justify-center items-center'>ช่องจอด {slotNumber}</span>  <img src="/img/Parking_icon.png" className="px-2" /></div>
                         )}
                       </button>
                       {isBooked ? (
-                          <>
-                           <span className='mt-2 text-xs text-center flex justify-center items-center'>{slotStatus}</span>
-                          </>
-                        ) : (
-                          <span className='mt-2 text-xs text-center flex justify-center items-center'>ช่องจอด {slotNumber}</span>
-                        )}
-                     
+                        <>
+                          <span className='mt-2 text-xs text-center flex justify-center items-center'>{slotStatus}</span>
+                        </>
+                      ) : (
+                        ''
+                      )}
+
                     </div>
                   );
                 })}
