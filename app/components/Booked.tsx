@@ -227,8 +227,8 @@ export default function Parking() {
                         key={i}
                         onClick={() => canClick && !isBooked && handleClick(slotNumber)}
                         disabled={!canClick || isBooked}
-                        className={`rounded-md h-14 w-6 flex items-center justify-center text-sm bg-white
-                          ${isBooked ? ' cursor-not-allowed border-red-500 border-2' : 'hover:bg-gray-300 border-2 border-teal-500'}
+                        className={`rounded-md h-14 w-6 flex items-center justify-center text-sm
+                          ${isBooked ? ' cursor-not-allowed border-red-500 border-2 bg-teal-200' : 'hover:bg-gray-300 border-2 border-teal-500 bg-white'}
                           transition`}
                       >
                         <span className='text-xs text-center flex justify-center items-center'>{slotNumber}</span>
@@ -272,8 +272,8 @@ export default function Parking() {
                               key={i}
                               onClick={() => canClick && !isBooked && handleClick(slotNumber)}
                               disabled={!canClick || isBooked}
-                              className={`rounded-md h-11 w-4 flex items-center justify-center text-sm bg-white
-                                ${isBooked ? ' cursor-not-allowed border-red-500 border-2' : 'hover:bg-gray-300 border-2 border-teal-500'}
+                              className={`rounded-md h-11 w-4 flex items-center justify-center text-sm 
+                                ${isBooked ? ' cursor-not-allowed border-red-500 border-2 bg-teal-200' : 'hover:bg-gray-300 border-2 border-teal-500 bg-white'}
                                 transition`}
                             >
                               <span className='text-[10px] text-center flex justify-center items-center'>{slotNumber}</span>
@@ -298,8 +298,8 @@ export default function Parking() {
                       key={i}
                       onClick={() => canClick && !isBooked && handleClick(slotNumber)}
                       disabled={!canClick || isBooked}
-                      className={`rounded-md h-6 w-12 flex items-center justify-center text-sm bg-white
-                      ${isBooked ? ' cursor-not-allowed border-red-500 border-2' : 'hover:bg-gray-300 border-2 border-teal-500'}
+                      className={`rounded-md h-6 w-12 flex items-center justify-center text-sm 
+                      ${isBooked ? ' cursor-not-allowed border-red-500 border-2 bg-teal-200' : 'hover:bg-gray-300 border-2 border-teal-500 bg-white'}
                       transition`}
                     >
                       <span className='text-xs text-center flex justify-center items-center'>{slotNumber}</span>
