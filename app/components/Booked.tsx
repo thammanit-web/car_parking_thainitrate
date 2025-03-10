@@ -242,7 +242,7 @@ export default function Parking() {
                         onClick={() => canClick && !isBooked && handleClick(slotNumber)}
                         disabled={!canClick || isBooked}
                         className={`rounded-md border h-18 w-12 flex items-center justify-center text-sm 
-                      ${isBooked || !canClick ? 'bg-gray-100 cursor-not-allowed' : 'hover:bg-gray-300'}
+                      ${isBooked || !canClick ? 'bg-gray-100 cursor-not-allowed' : 'hover:bg-gray-300 bg-white'}
                       transition`}
                       >
                         {isBooked ? (
@@ -270,8 +270,8 @@ export default function Parking() {
                   />
 
                   {/* Slot 8-10 */}
-                  <div className="absolute top-0 left-0 right-0 bottom-0 flex justify-center items-center">
-                    <div className='border flex flex-col bg-blue-300 px-2 py-2'>
+                  <div className="absolute top-44 left-0 right-15 bottom-0 flex justify-center items-center">
+                    <div className='border flex flex-col bg-gray-50 rounded-md px-2 py-2'>
                       <p className='text-xs mb-2'>จอดในพื้นที่โรงงาน</p>
                       <div className='flex gap-0.5'>
                         {[...Array(3)].map((_, i) => {
@@ -285,7 +285,7 @@ export default function Parking() {
                               key={i}
                               onClick={() => canClick && !isBooked && handleClick(slotNumber)}
                               disabled={!canClick || isBooked}
-                              className={`rounded-md border h-10 w-18 flex items-center justify-center text-sm 
+                              className={`rounded-md border h-4 w-8 flex items-center justify-center text-sm 
                       ${isBooked || !canClick ? 'bg-gray-100 cursor-not-allowed' : 'hover:bg-gray-300 bg-white'}
                       transition`}
                             >
@@ -297,7 +297,7 @@ export default function Parking() {
                               ) : (
                                 <div>
                                 <span className='text-xs text-center flex justify-center items-center'>{slotNumber}</span>
-                                <span className='text-xs text-center flex justify-center items-center'>ว่าง</span>
+                               
                               </div>
                               )}
                             </button>
@@ -322,7 +322,7 @@ export default function Parking() {
                       onClick={() => canClick && !isBooked && handleClick(slotNumber)}
                       disabled={!canClick || isBooked}
                       className={`rounded-md border h-10 w-18 flex items-center justify-center text-sm 
-                      ${isBooked || !canClick ? 'bg-gray-100 cursor-not-allowed' : 'hover:bg-gray-300'}
+                      ${isBooked || !canClick ? 'bg-gray-100 cursor-not-allowed' : 'hover:bg-gray-300 bg-white'}
                       transition`}
                     >
                       {isBooked ? (
@@ -381,7 +381,7 @@ export default function Parking() {
                         disabled={!canClick || isBooked}
                         className={`h-36 w-16 md:w-16 text-sm md:text-base text-center rounded-md transition border-gray-500
               mx-1.5 mb-2 border flex flex-col items-center justify-center
-              ${isBooked || !canClick ? 'bg-gray-100 border-gray-300 cursor-not-allowed' : 'bg-white  hover:bg-gray-50 cursor-pointer'} 
+              ${isBooked || !canClick ? 'bg-gray-100 border-gray-300 cursor-not-allowed' : 'bg-white  hover:bg-gray-300 cursor-pointer'} 
               focus:outline-none focus:ring-2 focus:ring-blue-400`}
                       >
                         {isBooked ? (
@@ -418,7 +418,7 @@ export default function Parking() {
                         disabled={!canClick || isBooked}
                         className={`h-36 w-16 md:w-16 text-sm md:text-base text-center rounded-md transition border-gray-500
               mx-1.5 mt-2 border flex flex-col items-center justify-center
-              ${isBooked || !canClick ? 'bg-gray-100 border-gray-300 cursor-not-allowed' : 'bg-white  hover:bg-gray-50 cursor-pointer'} 
+              ${isBooked || !canClick ? 'bg-gray-100 border-gray-300 cursor-not-allowed' : 'bg-white  hover:bg-gray-300  cursor-pointer'} 
               focus:outline-none focus:ring-2 focus:ring-blue-400`}
                       >
                         {isBooked ? (
