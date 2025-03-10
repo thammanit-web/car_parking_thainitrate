@@ -205,20 +205,6 @@ export default function Parking() {
   return (
     <div className="py-4 flex flex-col items-center">
       <div className='text-center w-full items-center justify-center grid'>
-        <div className="flex flex-col items-center mt-4 gap-2 mb-4">
-          <p className='text-xs'>**คลิกที่ช่องจอดเพื่อกรอกรายละเอียด**</p>
-          <label className="text-sm md:text-base font-medium text-gray-700 underline">เลือกวันที่ต้องการจอง</label>
-          <div className="relative">
-            <input
-              type="date"
-              value={selectedDate}
-              onChange={handleDateChange}
-              min={new Date(new Date().setDate(new Date().getDate())).toISOString().split("T")[0]}
-              max={new Date(new Date().setDate(new Date().getDate() + 14)).toISOString().split("T")[0]}
-              className="border border-teal-400 rounded-lg px-3 py-2 text-sm md:text-base shadow-sm focus:outline-none focus:ring-2 focus:ring-teal-500 focus:border-teal-500 transition-all duration-200 w-full md:w-64 bg-white"
-            />
-          </div>
-        </div>
         {loading ? (
           <div className="flex justify-center items-center h-64">
             <div className="animate-spin border-t-4 border-blue-500 border-solid w-12 h-12 rounded-full"></div>
@@ -241,38 +227,39 @@ export default function Parking() {
                         key={i}
                         onClick={() => canClick && !isBooked && handleClick(slotNumber)}
                         disabled={!canClick || isBooked}
-                        className={`rounded-md border h-18 w-12 flex items-center justify-center text-sm 
-                      ${isBooked || !canClick ? 'bg-gray-100 cursor-not-allowed' : 'hover:bg-gray-300 bg-white'}
-                      transition`}
+                        className={`rounded-md h-14 w-6 flex items-center justify-center text-sm bg-white
+                          ${isBooked ? ' cursor-not-allowed border-red-500 border-2' : 'hover:bg-gray-300 border-2 border-teal-500'}
+                          transition`}
                       >
-                        {isBooked ? (
-                          <div className="gap-0.5 flex flex-col items-center justify-center">
-                            <img src="/img/icon_truck.png" alt="Truck Icon" className="h-4" />
-                            <span className="text-xs">{slotStatus}</span>
-                          </div>
-                        ) : (
-                          <div>
-                          <span className='text-xs text-center flex justify-center items-center'>{slotNumber}</span>
-                          <span className='text-xs text-center flex justify-center items-center'>ว่าง</span>
-                        </div>
-                        )}
+                        <span className='text-xs text-center flex justify-center items-center'>{slotNumber}</span>
                       </button>
                     );
                   })}
                 </div>
                 <div className="relative mr-8">
+                  <div className='flex flex-row gap-4 mb-2'>
+                    <div className='flex gap-2 text-center'>
+                      <div className='bg-red-500 w-5 h-5 rounded-full'></div>
+                      <p className='text-xs'>จองแล้ว</p>
+                    </div>
+                    <div className='flex flex-col gap-2'>
+                      <div className='flex w-full gap-2 text-center'>
+                        <div className='bg-teal-500 w-5 h-5 rounded-full'></div>
+                        <p className='text-xs'>ว่าง</p>
+                      </div>
+                    </div>
+                  </div>
                   {/* Image */}
                   <img
-                    src="img/factory.jpg"
+                    src="img/1.jpg"
                     alt="Image"
                     className="object-cover h-96 w-full"
                     loading="lazy"
                   />
 
                   {/* Slot 8-10 */}
-                  <div className="absolute top-44 left-0 right-15 bottom-0 flex justify-center items-center">
-                    <div className='border flex flex-col bg-gray-50 rounded-md px-2 py-2'>
-                      <p className='text-xs mb-2'>จอดในพื้นที่โรงงาน</p>
+                  <div className="absolute top-40 left-0 right-13 bottom-0 flex justify-center items-center">
+                    <div className='border border-white flex flex-col  rounded-md px-2 py-2'>
                       <div className='flex gap-0.5'>
                         {[...Array(3)].map((_, i) => {
                           const slotNumber = i + 8;
@@ -285,21 +272,11 @@ export default function Parking() {
                               key={i}
                               onClick={() => canClick && !isBooked && handleClick(slotNumber)}
                               disabled={!canClick || isBooked}
-                              className={`rounded-md border h-4 w-8 flex items-center justify-center text-sm 
-                      ${isBooked || !canClick ? 'bg-gray-100 cursor-not-allowed' : 'hover:bg-gray-300 bg-white'}
-                      transition`}
+                              className={`rounded-md h-11 w-4 flex items-center justify-center text-sm bg-white
+                                ${isBooked ? ' cursor-not-allowed border-red-500 border-2' : 'hover:bg-gray-300 border-2 border-teal-500'}
+                                transition`}
                             >
-                              {isBooked ? (
-                                <div className="gap-0.5 flex flex-col items-center justify-center">
-                                  <img src="/img/icon_truck.png" alt="Truck Icon" className="h-4" />
-                                  <span className="text-xs">{slotStatus}</span>
-                                </div>
-                              ) : (
-                                <div>
-                                <span className='text-xs text-center flex justify-center items-center'>{slotNumber}</span>
-                               
-                              </div>
-                              )}
+                              <span className='text-[10px] text-center flex justify-center items-center'>{slotNumber}</span>
                             </button>
                           );
                         })}
@@ -309,7 +286,7 @@ export default function Parking() {
                 </div>
               </div>
               <div className="flex flex-row flex-1 text-center gap-0.5">
-                <div className="h-10 w-12"></div>
+                <div className="h-6 w-6"></div>
                 {[...Array(3)].map((_, i) => {
                   const slotNumber = 3 - i;
                   const slotStatus = getSlotStatus(slotNumber);
@@ -321,35 +298,35 @@ export default function Parking() {
                       key={i}
                       onClick={() => canClick && !isBooked && handleClick(slotNumber)}
                       disabled={!canClick || isBooked}
-                      className={`rounded-md border h-10 w-18 flex items-center justify-center text-sm 
-                      ${isBooked || !canClick ? 'bg-gray-100 cursor-not-allowed' : 'hover:bg-gray-300 bg-white'}
+                      className={`rounded-md h-6 w-12 flex items-center justify-center text-sm bg-white
+                      ${isBooked ? ' cursor-not-allowed border-red-500 border-2' : 'hover:bg-gray-300 border-2 border-teal-500'}
                       transition`}
                     >
-                      {isBooked ? (
-                        <div className="gap-0.5 flex flex-col items-center justify-center">
-                          <img src="/img/icon_truck.png" alt="Truck Icon" className="h-4" />
-                          <span className="text-xs">{slotStatus}</span>
-                        </div>
-                      ) : (
-                        <div>
-                          <span className='text-xs text-center flex justify-center items-center'>{slotNumber}</span>
-                          <span className='text-xs text-center flex justify-center items-center'>ว่าง</span>
-                        </div>
-                      )}
+                      <span className='text-xs text-center flex justify-center items-center'>{slotNumber}</span>
                     </button>
 
 
                   );
                 })}
               </div>
-              <div>
-                <p className='text-xs mt-2'>**กรุณาอย่าจอดรถขว้างทางเข้าออก**</p>
-              </div>
             </div>
           </>
         )}
       </div>
-      <hr className="border-gray-400 mt-4 w-full" />
+      <div className="flex flex-col items-center mt-4 gap-2 mb-4">
+          <p className='text-xs'>**คลิกที่ช่องจอดเพื่อกรอกรายละเอียด**</p>
+          <label className="text-sm md:text-base font-medium text-gray-700 underline">เลือกวันที่ต้องการจอง</label>
+          <div className="relative">
+            <input
+              type="date"
+              value={selectedDate}
+              onChange={handleDateChange}
+              min={new Date(new Date().setDate(new Date().getDate())).toISOString().split("T")[0]}
+              max={new Date(new Date().setDate(new Date().getDate() + 14)).toISOString().split("T")[0]}
+              className="border border-teal-400 rounded-lg px-3 py-2 text-sm md:text-base focus:outline-none focus:ring-2 focus:ring-teal-500 focus:border-teal-500 transition-all duration-200 w-full md:w-64 bg-white"
+            />
+          </div>
+        </div>
       <div className="p-4 rounded-lg w-full max-w-md md:max-w-3xl flex flex-col items-center">
         {loading ? (
           <div className="flex justify-center items-center h-64">
@@ -359,8 +336,8 @@ export default function Parking() {
           <div className="text-center py-4 text-red-500">{error}</div>
         ) : (
           <>
-            <div className="flex flex-col justify-center items-center w-full">
-              <div className="flex">
+            <div className="flex flex-row justify-center items-center w-full">
+              <div className="flex flex-col">
                 {[...Array(5)].map((_, i) => {
                   const slotNumber = i + 1; // ช่องจอด 1-5
                   const slotStatus = getSlotStatus(slotNumber);
@@ -368,28 +345,28 @@ export default function Parking() {
                   const canClick = isPreviousBooked(slotNumber);
 
                   return (
-                    <div key={slotNumber} className="border-b border-l border-r border-black">
+                    <div key={slotNumber} className="border-b border-t border-r border-black">
                       {isBooked ? (
                         <>
-                          <span className='mb-2 text-xs text-center flex justify-center items-center'>{slotStatus}</span>
+                          <span className='mb-1 mt-1 text-xs text-center flex justify-center items-center'>{slotStatus}</span>
                         </>
                       ) : (
-                        <span className='mb-2 text-xs text-center flex justify-center items-center'>ว่าง</span>
+                        <span className='mb-1 mt-1 text-xs text-center flex justify-center items-center'>ช่องจอด {slotNumber}</span>
                       )}
                       <button
                         onClick={() => canClick && !isBooked && handleClick(slotNumber)}
                         disabled={!canClick || isBooked}
-                        className={`h-36 w-16 md:w-16 text-sm md:text-base text-center rounded-md transition border-gray-500
+                        className={`h-16 w-36 md:h-16 text-sm md:text-base text-center rounded-md transition border-gray-500
               mx-1.5 mb-2 border flex flex-col items-center justify-center
               ${isBooked || !canClick ? 'bg-gray-100 border-gray-300 cursor-not-allowed' : 'bg-white  hover:bg-gray-300 cursor-pointer'} 
               focus:outline-none focus:ring-2 focus:ring-blue-400`}
                       >
                         {isBooked ? (
                           <>
-                            <img src="/img/truck.png" className="px-2 transform rotate-180" />
+                          <img src="img/car.png" className='rotate-180 px-3 transform' />
                           </>
                         ) : (
-                          <div><span className='mb-2 text-xs text-center flex justify-center items-center'>ช่องจอด {slotNumber}</span>  <img src="/img/Parking_icon.png" className="px-2" /></div>
+                          <div><img src="/img/Parking_icon.png" className="h-10" /></div>
                         )}
                       </button>
                     </div>
@@ -397,7 +374,7 @@ export default function Parking() {
                 })}
               </div>
 
-              <div className="flex">
+              <div className="flex flex-col">
                 {[...Array(5)].map((_, i) => {
                   const slotNumber = i + 6; // ช่องจอด 6-10
                   const slotStatus = getSlotStatus(slotNumber);
@@ -405,28 +382,28 @@ export default function Parking() {
                   const canClick = isPreviousBooked(slotNumber);
 
                   return (
-                    <div key={slotNumber} className="border-t border-l border-r border-black">
+                    <div key={slotNumber} className="border-b border-t border-l border-black">
                       {isBooked ? (
                         <>
-                          <span className='mt-2 text-xs text-center flex justify-center items-center'>{slotStatus}</span>
+                          <span className='mb-1 mt-1 text-xs text-center flex justify-center items-center'>{slotStatus}</span>
                         </>
                       ) : (
-                        <span className='mt-2 text-xs text-center flex justify-center items-center'>ว่าง</span>
+                        <span className='mb-1 mt-1 text-xs text-center flex justify-center items-center'>ช่องจอด {slotNumber}</span>
                       )}
                       <button
                         onClick={() => canClick && !isBooked && handleClick(slotNumber)}
                         disabled={!canClick || isBooked}
-                        className={`h-36 w-16 md:w-16 text-sm md:text-base text-center rounded-md transition border-gray-500
-              mx-1.5 mt-2 border flex flex-col items-center justify-center
-              ${isBooked || !canClick ? 'bg-gray-100 border-gray-300 cursor-not-allowed' : 'bg-white  hover:bg-gray-300  cursor-pointer'} 
+                        className={`h-16 w-36 md:h-16 text-sm md:text-base text-center rounded-md transition border-gray-500
+              mx-1.5 mb-2 border flex flex-col items-center justify-center
+              ${isBooked || !canClick ? 'bg-gray-100 border-gray-300 cursor-not-allowed' : 'bg-white  hover:bg-gray-300 cursor-pointer'} 
               focus:outline-none focus:ring-2 focus:ring-blue-400`}
                       >
                         {isBooked ? (
                           <>
-                            <img src="/img/truck.png" className="px-2 transform" />
+                            <img src="/img/car.png" className="transform px-3" />
                           </>
                         ) : (
-                          <div> <span className='mb-2 text-xs text-center flex justify-center items-center'>ช่องจอด {slotNumber}</span>  <img src="/img/Parking_icon.png" className="px-2" /></div>
+                          <img src="/img/Parking_icon.png" className="h-10" />
                         )}
                       </button>
                     </div>
